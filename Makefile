@@ -1,6 +1,7 @@
 BUILD := DEBUG
-VERSION := $(shell git describe --tags 2> /dev/null || echo unknown)
-FIRMWARE := /lib/firmware/xow_dongle.bin
+VERSION := v0.5
+BINDIR := /storage/.kodi/system/xow
+FIRMWARE := $(BINDIR)/xow_dongle.bin
 
 FLAGS := -Wall -Wpedantic -std=c++11 -MMD -MP
 DEBUG_FLAGS := -Og -g -DDEBUG
@@ -13,12 +14,10 @@ SOURCES := $(wildcard *.cpp) $(wildcard */*.cpp)
 OBJECTS := $(SOURCES:.cpp=.o)
 DEPENDENCIES := $(SOURCES:.cpp=.d)
 
-PREFIX := /usr/local
-BINDIR := $(PREFIX)/bin
-UDEVDIR := /etc/udev/rules.d
-MODLDIR := /etc/modules-load.d
-MODPDIR := /etc/modprobe.d
-SYSDDIR := /etc/systemd/system
+UDEVDIR := /storage/.config/udev.rules.d
+MODLDIR := /storage/.config/modules-load.d
+MODPDIR := /storage/.config/modprobe.d
+SYSDDIR := /storage/.config/system.d
 
 .PHONY: all
 all: xow firmware.sh xow.service
